@@ -20,7 +20,7 @@ import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Data
-@Builder(toBuilder = true)
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -29,19 +29,19 @@ public class Cryptocurrency { //TODO привести в соответстви�
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     @Column(name = "currency_short_name", nullable = false, length = 100)
     @Enumerated(EnumType.STRING)
     private Currency currencyShortName;
 
-    @Column(name="current_rate", nullable = false)
+    @Column(name="current_rate")
     private Double currentRate;
 
     @Column(name = "snapshot", nullable = false)
     @CreationTimestamp
     private LocalDateTime snapshot;
 
-    @Column(name="rate_change", nullable = false)
+    @Column(name="rate_change")
     private Double rateChange;
 }

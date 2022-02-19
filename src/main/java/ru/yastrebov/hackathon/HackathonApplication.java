@@ -17,10 +17,10 @@ public class HackathonApplication {
 
     }
 
-    @Bean
-    public RestTemplate restTemplate(RestTemplateBuilder builder) {
-
-        return new RestTemplate();
-    }
+//    @Bean
+//    public RestTemplate restTemplate(RestTemplateBuilder builder) {
+//
+//        return new RestTemplate();
+//    }
 
 }
