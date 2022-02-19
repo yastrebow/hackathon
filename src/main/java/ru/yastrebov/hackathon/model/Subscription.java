@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
-import org.springframework.validation.annotation.Validated;
 import ru.yastrebov.hackathon.model.enums.Currency;
 
 import javax.persistence.Column;
@@ -24,7 +22,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "subscription")
 public class Subscription {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

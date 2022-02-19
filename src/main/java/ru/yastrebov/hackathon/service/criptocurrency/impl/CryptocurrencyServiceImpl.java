@@ -5,12 +5,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ru.yastrebov.hackathon.model.Cryptocurrency;
+import ru.yastrebov.hackathon.model.Subscription;
 import ru.yastrebov.hackathon.model.enums.Currency;
+import ru.yastrebov.hackathon.model.enums.ExceedOrNotThreshold;
 import ru.yastrebov.hackathon.repository.CryptocurrencyRepository;
 import ru.yastrebov.hackathon.service.CryptocurrencyRandomizer;
 import ru.yastrebov.hackathon.service.criptocurrency.CryptocurrencyService;
+import ru.yastrebov.hackathon.service.subscription.SubscriptionService;
 
 import java.time.LocalDateTime;
+
+import static ru.yastrebov.hackathon.model.enums.ExceedOrNotThreshold.EXCEED_MAX;
+import static ru.yastrebov.hackathon.model.enums.ExceedOrNotThreshold.EXCEED_MIN;
 
 @Service
 @RequiredArgsConstructor
@@ -19,24 +25,38 @@ public class CryptocurrencyServiceImpl implements CryptocurrencyService {
 
     private final CryptocurrencyRandomizer cryptocurrencyRandomizer;
     private final CryptocurrencyRepository cryptocurrencyRepository;
+    private final SubscriptionService subscriptionService;
 
     @Override
     @Scheduled(fixedDelay = 3000)
     public void getRate() {
         Cryptocurrency previousCryptocurrency = cryptocurrencyRepository.findFirstByCurrencyShortNameOrderBySnapshotDesc(Currency.BTC);
-
         log.info("previousCryptocurrency {}", previousCryptocurrency);
-
         Double randomRate = cryptocurrencyRandomizer.getRandomRate(previousCryptocurrency.getCurrentRate());
-
         cryptocurrencyHandler(randomRate, previousCryptocurrency);
     }
 
-    public Cryptocurrency getLastCryptocurrency() {
-
+    @Override
+    public String getLastCryptocurrency(String lastName, String firstName) {
         Cryptocurrency lastCryptocurrency = cryptocurrencyRepository.findFirstByCurrencyShortNameOrderBySnapshotDesc(Currency.BTC);
 
-        return lastCryptocurrency;
+        Subscription subscription = subscriptionService.getSubscription(lastName, firstName);
+
+        ExceedOrNotThreshold exceedOrNotThreshold = checkThresholdExceeding(subscription, lastCryptocurrency);
+        log.debug("exceedOrNotThreshold = {}", exceedOrNotThreshold.name());
+        return sendMessage(subscription, lastCryptocurrency, exceedOrNotThreshold);
+    }
+
+    private ExceedOrNotThreshold checkThresholdExceeding(Subscription subscription, Cryptocurrency lastCryptocurrency) {
+        Double cryptocurrencyRateChange = lastCryptocurrency.getRateChange();
+        Double maxRateChange = subscription.getMaxRateChange();
+        Double minRateChange = subscription.getMinRateChange();
+
+        if (cryptocurrencyRateChange >= 0) {
+            return cryptocurrencyRateChange > maxRateChange ? EXCEED_MAX : ExceedOrNotThreshold.NOT_EXCEED;
+        } else {
+            return cryptocurrencyRateChange < minRateChange ? ExceedOrNotThreshold.EXCEED_MIN : ExceedOrNotThreshold.NOT_EXCEED;
+        }
     }
 
     public void cryptocurrencyHandler(Double randomRate, Cryptocurrency previousCryptocurrency) {
@@ -64,21 +84,26 @@ public class CryptocurrencyServiceImpl implements CryptocurrencyService {
     @Override
     public Double rateComparison(Cryptocurrency previousCryptocurrency, Double newRate) {
 
-        Double rateChange = newRate - previousCryptocurrency.getCurrentRate();
-
-        return rateChange;
+        return newRate - previousCryptocurrency.getCurrentRate();
     }
 
-//    @Override
-//    public ResponseEntity<String> sendMessage(Subscription subscription, Double rateChange) {
-//
-//        if (rateChange > subscription.getMaxRateChange()) {
-//            return new ResponseEntity<>(("Изменение курса криптовалюты " + subscription.getCurrencyShortName() + " превысило установленный порог. Продавай!"), HttpStatus.OK);
-//        } else if (rateChange < subscription.getMinRateChange()) {
-//            return new ResponseEntity<>(("Изменение курса криптовалюты " + subscription.getCurrencyShortName() + " превысило установленный порог. Покупай!"), HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(("Изменение курса в заданном диапазоне"), HttpStatus.OK);
-//        }
-//    }
+    private String sendMessage(Subscription subscription,
+                               Cryptocurrency currentCryptocurrency,
+                               ExceedOrNotThreshold exceedOrNotThreshold) {
+        String cryptocurrencyName = currentCryptocurrency.getCurrencyShortName().name();
+        Double currentRate = currentCryptocurrency.getCurrentRate();
+        if (exceedOrNotThreshold.equals(EXCEED_MAX)) {
+            return "Изменение курса криптовалюты " + cryptocurrencyName + " превысило установленный порог: " +
+                    subscription.getMaxRateChange() + ". Продавай! Текущее значение валюты " + cryptocurrencyName +
+                    ": " + currentRate;
+        } else if (exceedOrNotThreshold.equals(EXCEED_MIN)) {
+            return "Изменение курса криптовалюты " + cryptocurrencyName + " превысило установленный порог:" +
+                    subscription.getLastName() + ". Покупай! Текущее значение валюты " + cryptocurrencyName + ": " +
+                    currentRate;
+        } else {
+            return "Изменение курса в заданном диапазоне. Текущее значение валюты " + cryptocurrencyName + ": "
+                    + currentRate;
+        }
+    }
 
 }

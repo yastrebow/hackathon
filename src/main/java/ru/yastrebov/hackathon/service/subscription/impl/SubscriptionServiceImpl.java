@@ -1,26 +1,32 @@
 package ru.yastrebov.hackathon.service.subscription.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.yastrebov.hackathon.model.Subscription;
 import ru.yastrebov.hackathon.repository.SubscriptionRepository;
 import ru.yastrebov.hackathon.service.subscription.SubscriptionService;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class SubscriptionServiceImpl implements SubscriptionService {
 
     private final SubscriptionRepository subscriptionRepository;
 
     @Override
-    public Subscription createSubscription(Subscription consumer) {
+    public Subscription getSubscription(String lastName, String firstName) {
+        return subscriptionRepository.findByLastNameAndFirstName(lastName, firstName);
+    }
 
-
-        final Subscription createSubscription = subscriptionRepository.save(consumer);
-        return createSubscription;
+    @Override
+    public Subscription createSubscription(Subscription newSubscription) {
+        log.info("createSubscription starts, subscription = {}", newSubscription);
+        final Subscription savedSubscription = subscriptionRepository.save(newSubscription);
+        log.info("Subscription = {} saved!", savedSubscription);
+        return savedSubscription;
     }
 
     @Override
