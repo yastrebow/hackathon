@@ -38,6 +38,15 @@
                 startWith="100"
                 tableName="cryptocurrency"/>
     </changeSet>
+    <changeSet  author="andrey_ya"  id="insert-example">
+        <insert  tableName="cryptocurrency">
+            <column  name="id"  value="1"/>
+            <column  name="currency_short_name"  value="BTC"/>
+            <column  name="current_rate"  value="39000"/>
+            <column  name="snapshot"  value="2022-02-19 09:00:00"/>
+            <column  name="rate_change"  value="0"/>
+        </insert>
+    </changeSet>
 
 </databaseChangeLog>
 
