@@ -8,11 +8,11 @@ import ru.yastrebov.hackathon.model.enums.Currency;
 
 public interface CryptocurrencyService {
 
-    void getRate(long id);
+    void getRate();
 
-    Cryptocurrency postData(Cryptocurrency cryptocurrency);
+    Cryptocurrency createCryptocurrency(Cryptocurrency cryptocurrency);
 
-    Double rateComparison(Cryptocurrency cryptocurrency, Cryptocurrency savedCurrency);
+    Double rateComparison(Cryptocurrency oldCryptocurrency, Double newRate);
 
     ResponseEntity<String> sendMessage(Subscription consumer, Double rateChange);
 }

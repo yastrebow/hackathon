@@ -18,16 +18,25 @@
                 <constraints nullable="false"/>
             </column>
             <column name="current_rate" type="double">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="snapshot" type="timestamp">
                 <constraints nullable="false"/>
             </column>
             <column name="rate_change" type="double">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
 
         </createTable>
+    </changeSet>
+
+    <changeSet  id="addAutoIncrement-to-column-id" author="andrey_ya">
+        <addAutoIncrement
+                columnDataType="bigint"
+                columnName="id"
+                incrementBy="1"
+                startWith="100"
+                tableName="cryptocurrency"/>
     </changeSet>
 
 </databaseChangeLog>

@@ -12,8 +12,7 @@ import java.time.LocalDateTime;
 @Repository
 public interface CryptocurrencyRepository extends JpaRepository<Cryptocurrency, Long> {
 
-//    Cryptocurrency findFirstByCurrencyShortNameOrderBySnapshotDesc(Currency currencyName);
+    Cryptocurrency findFirstByCurrencyShortNameOrderBySnapshotDesc(Currency currencyName);
 
-//    Cryptocurrency findCryptocurrencyByCurrencyShortNameAndCurrentRate(Currency currencyName);
 
 }

@@ -19,15 +19,15 @@ spring:
     password: Andy1964
     driver-class-name: org.postgresql.Driver
 
-  kafka:
-    consumer:
-      bootstrap-servers: pkc-xmzwx.europe-central2.gcp.confluent.cloud:9092
-      group-id: hackathon-one-team
+#  kafka:
+#    consumer:
+#      bootstrap-servers: pkc-xmzwx.europe-central2.gcp.confluent.cloud:9092
+#      group-id: hackathon-one-team
 #        user: 7FVY3HRGJCBZUNK2
 #        password: /x38MoYO2bdykrJGPgcCihWfoMqm4V64icBLcPZzYHCVqGvC4BfDWEp5rG1f1C9v
-      auto-offset-reset: earliest
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      auto-offset-reset: earliest
+#      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
 #management:
 #  metrics:
