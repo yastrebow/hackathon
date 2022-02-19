@@ -1,9 +1,6 @@
 package ru.yastrebov.hackathon.service.criptocurrency;
 
-import org.springframework.http.ResponseEntity;
-import ru.yastrebov.hackathon.model.Subscription;
 import ru.yastrebov.hackathon.model.Cryptocurrency;
-import ru.yastrebov.hackathon.model.enums.Currency;
 
 
 public interface CryptocurrencyService {
@@ -14,5 +11,7 @@ public interface CryptocurrencyService {
 
     Double rateComparison(Cryptocurrency oldCryptocurrency, Double newRate);
 
-    ResponseEntity<String> sendMessage(Subscription consumer, Double rateChange);
+    public Cryptocurrency getLastCryptocurrency();
+
+//    ResponseEntity<String> sendMessage(Subscription consumer, Double rateChange);
 }

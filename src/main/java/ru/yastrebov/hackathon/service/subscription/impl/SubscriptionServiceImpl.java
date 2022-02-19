@@ -17,7 +17,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     public Subscription createSubscription(Subscription consumer) {
-       final Subscription createSubscription = subscriptionRepository.save(consumer);
+
+
+        final Subscription createSubscription = subscriptionRepository.save(consumer);
         return createSubscription;
     }
 

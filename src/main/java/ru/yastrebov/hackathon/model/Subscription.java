@@ -20,6 +20,7 @@ import javax.persistence.Table;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "subscription")
 public class Subscription {
@@ -38,10 +39,10 @@ public class Subscription {
     @Enumerated(EnumType.STRING)
     private Currency currencyShortName;
 
-    @Column(name="max_rate_change", nullable = false)
+    @Column(name = "max_rate_change", nullable = false)
     private Double maxRateChange;
 
-    @Column(name="min_rate_change", nullable = false)
+    @Column(name = "min_rate_change", nullable = false)
     private Double minRateChange;
 
 }

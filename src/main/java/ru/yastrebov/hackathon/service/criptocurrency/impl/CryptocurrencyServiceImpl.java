@@ -2,11 +2,8 @@ package ru.yastrebov.hackathon.service.criptocurrency.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import ru.yastrebov.hackathon.model.Subscription;
 import ru.yastrebov.hackathon.model.Cryptocurrency;
 import ru.yastrebov.hackathon.model.enums.Currency;
 import ru.yastrebov.hackathon.repository.CryptocurrencyRepository;
@@ -35,8 +32,14 @@ public class CryptocurrencyServiceImpl implements CryptocurrencyService {
         cryptocurrencyHandler(randomRate, previousCryptocurrency);
     }
 
-    public void cryptocurrencyHandler(Double randomRate, Cryptocurrency previousCryptocurrency) {
+    public Cryptocurrency getLastCryptocurrency() {
 
+        Cryptocurrency lastCryptocurrency = cryptocurrencyRepository.findFirstByCurrencyShortNameOrderBySnapshotDesc(Currency.BTC);
+
+        return lastCryptocurrency;
+    }
+
+    public void cryptocurrencyHandler(Double randomRate, Cryptocurrency previousCryptocurrency) {
 
         Cryptocurrency cryptocurrency = Cryptocurrency.builder()
                 .currencyShortName(Currency.BTC)
@@ -66,17 +69,16 @@ public class CryptocurrencyServiceImpl implements CryptocurrencyService {
         return rateChange;
     }
 
-    @Override
-    public ResponseEntity<String> sendMessage(Subscription subscription, Double rateChange) {
-
-        if (rateChange > subscription.getMaxRateChange()) {
-            return new ResponseEntity<>(("Изменение курса криптовалюты " + subscription.getCurrencyShortName() + " превысило установленный порог. Продавай!"), HttpStatus.OK);
-        } else if (rateChange < subscription.getMinRateChange()) {
-            return new ResponseEntity<>(("Изменение курса криптовалюты " + subscription.getCurrencyShortName() + " превысило установленный порог. Покупай!"), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(("Изменение курса в заданном диапазоне"), HttpStatus.OK);
-        }
-    }
-
+//    @Override
+//    public ResponseEntity<String> sendMessage(Subscription subscription, Double rateChange) {
+//
+//        if (rateChange > subscription.getMaxRateChange()) {
+//            return new ResponseEntity<>(("Изменение курса криптовалюты " + subscription.getCurrencyShortName() + " превысило установленный порог. Продавай!"), HttpStatus.OK);
+//        } else if (rateChange < subscription.getMinRateChange()) {
+//            return new ResponseEntity<>(("Изменение курса криптовалюты " + subscription.getCurrencyShortName() + " превысило установленный порог. Покупай!"), HttpStatus.OK);
+//        } else {
+//            return new ResponseEntity<>(("Изменение курса в заданном диапазоне"), HttpStatus.OK);
+//        }
+//    }
 
 }

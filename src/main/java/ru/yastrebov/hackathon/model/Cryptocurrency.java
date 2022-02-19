@@ -35,13 +35,13 @@ public class Cryptocurrency { //TODO привести в соответстви�
     @Enumerated(EnumType.STRING)
     private Currency currencyShortName;
 
-    @Column(name="current_rate")
+    @Column(name = "current_rate")
     private Double currentRate;
 
     @Column(name = "snapshot", nullable = false)
     @CreationTimestamp
     private LocalDateTime snapshot;
 
-    @Column(name="rate_change")
+    @Column(name = "rate_change")
     private Double rateChange;
 }
