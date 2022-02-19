@@ -42,4 +42,4 @@ jobs:
           java-version: 1.16
 
       - name: Build with Maven
-        run: mvn spring-boot:run -Dspring-boot.run.profiles=ci
+        run: mvn -B clean -Dmaven.test.skip package
