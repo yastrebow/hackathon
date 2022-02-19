@@ -43,5 +43,4 @@ jobs:
           java-version: 1.16
 
       - name: Build with Maven
-        uses: docker://liquibase/liquibase:latest
-        run: mvn -B clean package
+        run: mvn spring-boot:run -Dspring-boot.run.profiles=ci
