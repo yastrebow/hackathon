@@ -1,0 +1,54 @@
+server:
+  port: 8080
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5433/hackathon
+    username: postgres
+    password: Andy1964
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.xml
+    url: jdbc:postgresql://localhost:5433/hackathon
+    user: postgres
+    password: Andy1964
+    driver-class-name: org.postgresql.Driver
+
+  kafka:
+    consumer:
+      bootstrap-servers: pkc-xmzwx.europe-central2.gcp.confluent.cloud:9092
+      group-id: hackathon-one-team
+#        user: 7FVY3HRGJCBZUNK2
+#        password: /x38MoYO2bdykrJGPgcCihWfoMqm4V64icBLcPZzYHCVqGvC4BfDWEp5rG1f1C9v
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+#management:
+#  metrics:
+#    tags:
+#      application: ${spring.application.name}
+#  endpoint:
+#    metrics:
+#      enabled: true
+#    prometheus:
+#      enabled: true
+#    health:
+#      show-details: always
+#    loggers:
+#      enabled: true
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"
+#
+#logging:
+#  level:
+#    ROOT: INFO
+#    ru.yastrebov.onemicr: INFO
+#    org.springframework: INFO
