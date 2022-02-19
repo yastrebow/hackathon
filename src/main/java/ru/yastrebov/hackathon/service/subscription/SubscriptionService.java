@@ -4,7 +4,9 @@ import ru.yastrebov.hackathon.model.Subscription;
 
 public interface SubscriptionService {
 
-    Subscription createSubscription(Subscription consumer);
+    Subscription getSubscription(String lastName, String firstName);
+
+    Subscription createSubscription(Subscription newSubscription);
 
     void deleteSubscription(Long id);
 

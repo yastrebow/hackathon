@@ -7,4 +7,5 @@ import ru.yastrebov.hackathon.model.Subscription;
 @Repository
 public interface SubscriptionRepository extends JpaRepository<Subscription, Long> {
 
+    Subscription findByLastNameAndFirstName(String lastName, String firstName);
 }

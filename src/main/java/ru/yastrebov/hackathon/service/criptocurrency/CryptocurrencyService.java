@@ -9,9 +9,7 @@ public interface CryptocurrencyService {
 
     Cryptocurrency createCryptocurrency(Cryptocurrency cryptocurrency);
 
+    String getLastCryptocurrency(String lastName, String firstName);
+
     Double rateComparison(Cryptocurrency oldCryptocurrency, Double newRate);
-
-    public Cryptocurrency getLastCryptocurrency();
-
-//    ResponseEntity<String> sendMessage(Subscription consumer, Double rateChange);
 }
