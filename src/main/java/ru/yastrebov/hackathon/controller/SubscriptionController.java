@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,5 +29,12 @@ public class SubscriptionController {
         return ResponseEntity.ok(newSubscription);
     }
 
+    @PutMapping
+    public ResponseEntity<Subscription> updateSubscription(@RequestBody Subscription subscription) {
+
+        Subscription updatedSubscription = subscriptionService.updateSubscription(subscription);
+
+        return ResponseEntity.ok(updatedSubscription);
+    }
 
 }
