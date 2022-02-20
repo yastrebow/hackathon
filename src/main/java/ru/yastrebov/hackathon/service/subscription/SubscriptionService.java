@@ -8,6 +8,8 @@ public interface SubscriptionService {
 
     Subscription createSubscription(Subscription newSubscription);
 
+    Subscription updateSubscription(Subscription subscription);
+
     void deleteSubscription(Long id);
 
 }

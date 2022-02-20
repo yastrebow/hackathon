@@ -30,6 +30,19 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
+    public Subscription updateSubscription(Subscription subscription) {
+
+        Subscription subscriptionForUpdate = subscriptionRepository.findByLastNameAndFirstName(subscription.getLastName(), subscription.getFirstName());
+
+        subscriptionForUpdate.setMaxRateChange(subscription.getMaxRateChange());
+        subscriptionForUpdate.setMinRateChange(subscription.getMinRateChange());
+
+        Subscription updatedSubscription = subscriptionRepository.save(subscriptionForUpdate);
+        log.info("Updated subscription = {} saved", updatedSubscription);
+        return updatedSubscription;
+    }
+
+    @Override
     public void deleteSubscription(Long id) {
         final Subscription subscriptionForDelete = subscriptionRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);

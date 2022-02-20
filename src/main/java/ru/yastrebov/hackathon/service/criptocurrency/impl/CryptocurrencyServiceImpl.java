@@ -97,8 +97,8 @@ public class CryptocurrencyServiceImpl implements CryptocurrencyService {
                     subscription.getMaxRateChange() + ". Продавай! Текущее значение валюты " + cryptocurrencyName +
                     ": " + currentRate;
         } else if (exceedOrNotThreshold.equals(EXCEED_MIN)) {
-            return "Изменение курса криптовалюты " + cryptocurrencyName + " превысило установленный порог:" +
-                    subscription.getLastName() + ". Покупай! Текущее значение валюты " + cryptocurrencyName + ": " +
+            return "Изменение курса криптовалюты " + cryptocurrencyName + " превысило установленный порог: " +
+                    subscription.getMinRateChange() + ". Покупай! Текущее значение валюты " + cryptocurrencyName + ": " +
                     currentRate;
         } else {
             return "Изменение курса в заданном диапазоне. Текущее значение валюты " + cryptocurrencyName + ": "
