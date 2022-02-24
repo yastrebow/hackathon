@@ -1,6 +1,3 @@
-![build](https://github.com//yastrebow/hackathon/actions/workflows/maven.yaml/badge.svg)
-
-
 Web application for crypto trading "OneCoin". 
 ====
 The user can subscribe to the cryptocurrency rate mailing list and receive the current rate if the rate change exceeds the limits of the established range.
